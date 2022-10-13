@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, useEffect } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
 type ThemeProviderProps = {
@@ -10,7 +10,7 @@ type ThemeContextType = {
   setTheme: (theme: string) => void;
 };
 
-export const AVAILABLE_THEMES = ["lofi", "moon"];
+export const AVAILABLE_THEMES = ["lofi.gif", "moon.jpg"];
 
 const ThemeContext = createContext({} as ThemeContextType);
 
@@ -19,7 +19,12 @@ export function useTheme() {
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [theme, setTheme] = useLocalStorage<string>("theme", "lofi");
+  const [theme, setTheme] = useLocalStorage<string>("theme", "lofi.gif");
+  useEffect(() => {
+    const html = document.documentElement;
+    html.style.background = `url(${theme}) no-repeat center center fixed`
+    html.style.backgroundSize = "cover";
+  }, [theme])
 
   return (
     <ThemeContext.Provider
@@ -28,14 +33,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         setTheme,
       }}
     >
-      <div
-      id="theme"
-      style={{
-        backgroundImage: `url(/${theme}.jpg)`,
-        backgroundSize: "cover",
-        height: "100vh"
-      }}
-      >{children}</div>
+      {children}
     </ThemeContext.Provider>
   );
 }

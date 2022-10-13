@@ -6,7 +6,6 @@ export default function Main() {
 
   return (
   <div>
-    {widgets.map((widget) =>  <Widget key={widget.title} {...widget} /> )}
   </div>
   )
 }
