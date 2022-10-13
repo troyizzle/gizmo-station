@@ -1,21 +1,22 @@
 import Draggable from "react-draggable";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useWidgets, Widget } from "../../context/WidgetContext";
+import Todo from "../Todo";
 
-export default function() {
-  const [widget, setWidget] = useLocalStorage<{x: 0, y: 0}>("widget", {x: 0, y: 0});
-  const eventHandler = (e: any, data: any) => {
-    console.log('Event Type', e.type);
-    console.log({e, data});
-    const widgetPos = { x: data.x, y: data.y }
-    setWidget(widgetPos)
-  }
+export default function WidgetComponent({ title, x, y }: Widget) {
+  const { updateWidget } = useWidgets();
 
-  return(
-  <Draggable
-    defaultPosition={{x: widget.x, y: widget.y}}
-    onStop={eventHandler}
-  >
-  <div className="h-64 w-64 bg-gray-300">this is a drag</div>
-  </Draggable>
-  )
+  const eventHandler = (_e: any, data: any) => {
+    updateWidget(title, data.x, data.y);
+  };
+
+  return (
+    <Draggable key={title} defaultPosition={{ x: x, y: y }} onStop={eventHandler}>
+      <div className="p-2 mb-2 w-72 bg-gray-800 sm:w-96 max-w-sm shadow-md rounded-lg justify-between">
+        <div className="flex justify-between items-center p-1 handle">
+          <p className="text-white">{title}</p>
+        </div>
+        <Todo/>
+      </div>
+    </Draggable>
+  );
 }

@@ -5,14 +5,14 @@ type ThemeProviderProps = {
   children: ReactNode;
 };
 
-type ThemeContext = {
+type ThemeContextType = {
   theme: string;
   setTheme: (theme: string) => void;
 };
 
 export const AVAILABLE_THEMES = ["lofi", "moon"];
 
-const ThemeContext = createContext({} as ThemeContext);
+const ThemeContext = createContext({} as ThemeContextType);
 
 export function useTheme() {
   return useContext(ThemeContext);
