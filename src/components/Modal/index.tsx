@@ -48,6 +48,12 @@ export default function Modal({ isOpen, setIsOpen }: ModalProps) {
     setAudioVolume(e.target.value)
   }
 
+  function handleSubmit(e: any) {
+    e.preventDefault();
+    setSettings(formState)
+    closeModal()
+  }
+
   type alarmSoundType = {
     name: string;
     icon: IconDefinition;
@@ -141,6 +147,7 @@ export default function Modal({ isOpen, setIsOpen }: ModalProps) {
                   step="0.10"
                   max="1"
                   value={formState.audioVolume}
+                  onInput={handleVolumeChange}
                   onChange={handleVolumeChange}
                   type="range"
                   className="w-full"
@@ -173,8 +180,8 @@ export default function Modal({ isOpen, setIsOpen }: ModalProps) {
                 <div className="mt-4 text-center">
                   <button
                     type="button"
-                    className="w-full inline-flex justify-center rounded-md border border-transparent bg-blue-400 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                    onClick={closeModal}
+                    className="w-full inline-flex justify-center rounded-md border border-transparent bg-purple-500 px-4 py-2 text-sm font-medium text-white hover:bg-purple-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    onClick={handleSubmit}
                   >
                     Save
                   </button>
