@@ -1,3 +1,5 @@
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { faListCheck } from "@fortawesome/free-solid-svg-icons";
 import { createContext, ReactNode, useContext } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
@@ -9,6 +11,7 @@ export type Widget = {
   title: string;
   x: number;
   y: number;
+  icon: IconDefinition
 };
 
 type WidgetContextType = {
@@ -27,7 +30,12 @@ const TASK_WIDGET: Widget = {
   title: "Tasks",
   x: 200,
   y: 200,
+  icon: faListCheck
 }
+
+export const AVAILABLE_WIDGETS: Widget[] = [
+  TASK_WIDGET
+]
 
 const DEFAULT_WIDGETS = [
   TASK_WIDGET,

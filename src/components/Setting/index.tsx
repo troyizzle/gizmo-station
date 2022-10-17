@@ -1,17 +1,17 @@
 import { useState } from "react"
+import Button from "../Button"
 import Modal from "../Modal"
-import NavbarButton from "../Navbar/Button"
 
 export default function Setting() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true)
 
   return (
   <>
-    <NavbarButton
+    <Button
     onClick={() => setIsOpen(true)}
     name="Settings"
     />
-    <Modal isOpen={isOpen} setIsOpen={setIsOpen} />
+    <Modal isOpen={isOpen} setIsOpen={setIsOpen}/>
     </>
   )
 }

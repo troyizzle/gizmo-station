@@ -13,6 +13,8 @@ import pianoAudio from "../../assets/piano.mp3";
 import fluteAudio from "../../assets/flute.mp3";
 import { SettingType, useSetting } from "../../context/SettingContext";
 import clsx from "clsx";
+import Button from "../Button";
+import Input from "../Input";
 
 type ModalProps = {
   isOpen: boolean;
@@ -21,37 +23,36 @@ type ModalProps = {
 
 export default function Modal({ isOpen, setIsOpen }: ModalProps) {
   const { settings, setSettings } = useSetting();
-  const [audioVolume, setAudioVolume] = useState<number>(settings.audioVolume)
-  const soundOptions: any = { volume: audioVolume }
+  const [audioVolume, setAudioVolume] = useState<number>(settings.audioVolume);
+  const soundOptions: any = { volume: audioVolume };
   const [badInternetSound] = useSound(badInternet, soundOptions);
   const [bellSound] = useSound(bell, soundOptions);
   const [pianoSound] = useSound(pianoAudio, soundOptions);
   const [fluteSound] = useSound(fluteAudio, soundOptions);
-  const [formState, setFormState] = useState<SettingType>(settings)
-
+  const [formState, setFormState] = useState<SettingType>(settings);
 
   function closeModal() {
     setIsOpen(false);
   }
 
   function handleChange(e: any) {
-    setFormState({...formState, [e.target.name]: e.target.value})
+    setFormState({ ...formState, [e.target.name]: e.target.value });
   }
 
   function handleAlarmChange(alarmSound: alarmSoundType) {
-    setFormState({...formState, alarm: alarmSound.name})
-    alarmSound.sound()
+    setFormState({ ...formState, alarm: alarmSound.name });
+    alarmSound.sound();
   }
 
   function handleVolumeChange(e: any) {
-    handleChange(e)
-    setAudioVolume(e.target.value)
+    handleChange(e);
+    setAudioVolume(e.target.value);
   }
 
   function handleSubmit(e: any) {
     e.preventDefault();
-    setSettings(formState)
-    closeModal()
+    setSettings(formState);
+    closeModal();
   }
 
   type alarmSoundType = {
@@ -101,8 +102,6 @@ export default function Modal({ isOpen, setIsOpen }: ModalProps) {
                   Setting
                 </Dialog.Title>
                 <div className="mt-2">
-                  {JSON.stringify(settings)}
-                  {JSON.stringify(formState)}
                   <p className="text-center text-gray-500">
                     Time <span>(minutes)</span>
                   </p>
@@ -115,26 +114,25 @@ export default function Modal({ isOpen, setIsOpen }: ModalProps) {
                     <div>Long Break</div>
                   </div>
                   <div className="columns-3">
-                    <input
-                      name="pomodoro"
-                      type="number"
-                      onChange={handleChange}
-                      value={formState.pomodoro}
-                      className="text-center bg-gray-300 w-full"
-                    />
-                    <input
+                    <div>
+                      <Input
+                        name="pomodoro"
+                        type="number"
+                        value={formState.pomodoro}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <Input
                       name="shortBreak"
                       type="number"
-                      onChange={handleChange}
                       value={formState.shortBreak}
-                      className="text-center bg-gray-300 w-full"
+                      onChange={handleChange}
                     />
-                    <input
+                    <Input
                       name="longBreak"
                       type="number"
-                      onChange={handleChange}
                       value={formState.longBreak}
-                      className="text-center bg-gray-300 w-full"
+                      onChange={handleChange}
                     />
                   </div>
                 </div>
@@ -142,15 +140,15 @@ export default function Modal({ isOpen, setIsOpen }: ModalProps) {
                 <div className="mt-2">
                   <p className="text-gray-500 text-center">Alarm Volume</p>
                   <input
-                  name="audioVolume"
-                  min="0"
-                  step="0.10"
-                  max="1"
-                  value={formState.audioVolume}
-                  onInput={handleVolumeChange}
-                  onChange={handleVolumeChange}
-                  type="range"
-                  className="w-full"
+                    name="audioVolume"
+                    min="0"
+                    step="0.10"
+                    max="1"
+                    value={formState.audioVolume}
+                    onInput={handleVolumeChange}
+                    onChange={handleVolumeChange}
+                    type="range"
+                    className="w-full"
                   />
                 </div>
 
@@ -166,8 +164,12 @@ export default function Modal({ isOpen, setIsOpen }: ModalProps) {
                       return (
                         <div
                           onClick={() => handleAlarmChange(alarmSound)}
-                          className={clsx("p-1 rounded-sm bg-gray-300 w-full cursor-pointer",
-                          {["border-2 border-blue-300"]: alarmSound.name === formState.alarm}
+                          className={clsx(
+                            "p-1 rounded-sm bg-gray-300 w-full cursor-pointer",
+                            {
+                              ["border-2 border-blue-300"]:
+                                alarmSound.name === formState.alarm,
+                            }
                           )}
                         >
                           <FontAwesomeIcon icon={alarmSound.icon} />
@@ -178,13 +180,7 @@ export default function Modal({ isOpen, setIsOpen }: ModalProps) {
                 </div>
 
                 <div className="mt-4 text-center">
-                  <button
-                    type="button"
-                    className="w-full inline-flex justify-center rounded-md border border-transparent bg-purple-500 px-4 py-2 text-sm font-medium text-white hover:bg-purple-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                    onClick={handleSubmit}
-                  >
-                    Save
-                  </button>
+                  <Button onClick={handleSubmit} name="Save" wide={true} />
                 </div>
               </Dialog.Panel>
             </Transition.Child>
